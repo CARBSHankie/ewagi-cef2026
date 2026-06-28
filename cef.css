@@ -1,0 +1,318 @@
+/* ============================================================
+   CEF 2026 — "Instrument & Ledger" skin
+   Layers OVER styles.css (GENED engine). Loaded after it.
+   Palette: teal-ink / technical-paper / burnt-ember / petrol.
+   Type: Newsreader (thesis) · IBM Plex Mono (evidence) · Inter (body).
+   Signature: faint input-output matrix grid + the closure "scissors".
+   ============================================================ */
+@import url('fonts.css');
+
+:root{
+  --ink:#14232F; --ink-soft:#20384A; --ink-line:#2C4658;
+  --paper:#FBFAF7; --paper-2:#F1EDE4; --paper-3:#E8E3D7;
+  --ember:#C8553D; --ember-soft:#E0A458; --ember-ink:#9A3C28;
+  --petrol:#2A6F77; --petrol-soft:#5C9AA0;
+  --muted:#6B7785; --muted-ink:#9DB0BC;
+  --line:rgba(20,35,47,.085); --line-strong:rgba(20,35,47,.16);
+  --line-ink:rgba(140,190,200,.08);
+  --serif:'Newsreader',Georgia,'Times New Roman',serif;
+  --sans:'Inter',system-ui,-apple-system,Segoe UI,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,monospace;
+}
+
+/* ---------- base / engine canvas ---------- */
+body{font-family:var(--sans);background:var(--ink)!important;color:var(--ink);letter-spacing:-.002em}
+.presentation-container{max-width:1320px!important;background:var(--paper)!important;box-shadow:0 24px 80px rgba(0,0,0,.45)!important;position:relative!important}
+
+/* ---------- header / nav (slim nav-only chrome — no deck title, no brand) ---------- */
+.presentation-header{background:var(--ink)!important;color:var(--paper)!important;border-bottom:2px solid var(--ember);min-height:0!important;padding:9px 24px!important;flex-direction:row!important;flex-wrap:wrap;align-items:center!important;justify-content:space-between!important;gap:8px 18px!important}
+.section-links{margin:0!important}
+.nav-controls{margin:0!important}
+.section-link{font-family:var(--mono)!important;font-size:.72em!important;letter-spacing:.03em;text-transform:uppercase;border:1px solid rgba(255,255,255,.18)!important;background:transparent!important;color:var(--muted-ink)!important;border-radius:2px!important;padding:7px 12px!important}
+.section-link:hover{background:var(--ember)!important;color:#fff!important;border-color:var(--ember)!important}
+.nav-btn,.fullscreen-btn{background:var(--ink-soft)!important;border:1px solid var(--ink-line)!important;border-radius:2px!important;font-family:var(--mono)!important;font-size:.78em!important;letter-spacing:.02em;box-shadow:none!important}
+.nav-btn:hover,.fullscreen-btn:hover{background:var(--ember)!important;border-color:var(--ember)!important;transform:none!important}
+.nav-btn:disabled{background:#172a38!important;color:#3d5363!important;border-color:#243a4a!important}
+.slide-counter{background:transparent!important;border:1px solid var(--ink-line)!important;border-radius:2px!important;color:var(--muted-ink)!important;font-family:var(--mono)!important;font-size:.78em!important}
+.slide-badge{background:var(--ink)!important;border:1px solid var(--ember);border-radius:2px!important;font-family:var(--mono);font-size:10px!important;letter-spacing:.03em;color:var(--ember-soft)!important}
+
+/* ---------- slide frame + IO-matrix grid signature ---------- */
+.slide{padding:54px 64px!important;min-height:620px!important}
+.content-slide{
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:44px 44px;            /* a quiet nod to the 44 units */
+  background-position:-1px -1px;
+}
+
+/* eyebrow: the rhetorical ROLE of each slide, in the data voice */
+.eyebrow{font-family:var(--mono);font-size:.82rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--ember);display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.eyebrow::after{content:"";height:1px;flex:1;background:var(--line-strong)}
+.presentation-container.fullscreen-mode .eyebrow{font-size:1.05rem}
+
+/* ---------- typography ---------- */
+.slide h1{font-family:var(--serif)!important;font-weight:600!important;font-size:2.7em!important;line-height:1.06!important;letter-spacing:-.018em!important;color:var(--ink)!important;border-bottom:none!important;padding-bottom:0!important;margin-bottom:26px!important;text-wrap:balance}
+.presentation-container.fullscreen-mode .slide h1{font-size:3.3em!important;margin-bottom:30px!important}
+.slide h2{font-family:var(--mono)!important;font-size:.92em!important;font-weight:600!important;letter-spacing:.12em;text-transform:uppercase;color:var(--petrol)!important;margin:30px 0 16px!important}
+.slide h3{font-family:var(--serif)!important;color:var(--ink)!important;font-weight:600!important}
+.slide p,.slide li{font-family:var(--sans)!important;font-size:1.12em!important;line-height:1.55!important;color:#27323b}
+.slide strong{color:var(--ink);font-weight:700}
+.slide em{font-style:italic}
+
+/* ---------- highlight = "key point" ledger callout ---------- */
+.highlight{background:#fff!important;border:1px solid var(--line-strong)!important;border-left:4px solid var(--ember)!important;border-radius:0 4px 4px 0!important;padding:20px 24px!important;margin:18px 0!important;box-shadow:0 2px 16px rgba(20,35,47,.04)}
+.highlight.subtle{border-left-color:var(--petrol)!important}
+.callout-gap{font-family:var(--sans);font-size:1.12em;line-height:1.5;color:var(--ink);background:var(--paper-2);border:1px dashed var(--line-strong);border-radius:4px;padding:16px 22px;margin-top:22px}
+
+/* ---------- card grids (RQ / framework / wall) ---------- */
+.module-box{background:#fff!important;border:1px solid var(--line-strong)!important;border-radius:4px!important;padding:18px 18px 16px!important;text-align:left!important;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease!important;position:relative;overflow:hidden}
+.module-box::before{content:none!important}
+.module-box::after{content:"";position:absolute;top:0;left:0;width:3px;height:100%;background:var(--petrol);opacity:.0;transition:opacity .2s ease}
+.module-box:hover{transform:translateY(-4px)!important;box-shadow:0 14px 34px rgba(20,35,47,.10)!important;border-color:var(--petrol)!important;background:#fff!important}
+.module-box:hover::after{opacity:1}
+.module-icon{font-size:1.5rem!important;margin-bottom:8px!important}
+.module-title{font-family:var(--mono)!important;font-size:.86rem!important;font-weight:600!important;letter-spacing:.04em;text-transform:uppercase;color:var(--ink)!important;margin-bottom:7px!important}
+.module-desc{font-family:var(--sans)!important;font-size:.95rem!important;color:#4a5a66!important;line-height:1.45!important}
+.rq-grid{grid-template-columns:repeat(4,1fr)!important}
+.rq-grid .module-box:nth-child(4)::after{background:var(--ember)}
+.architecture-legend{background:var(--paper-2)!important;border:1px solid var(--line-strong)!important;border-radius:4px!important;margin-top:24px!important}
+.architecture-legend p{font-family:var(--sans)!important;color:#3a4750!important;font-size:1.02rem!important}
+
+/* ---------- hook / hierarchy lines ---------- */
+.hook-line{font-family:var(--serif);font-size:1.5rem;font-style:italic;color:var(--ember-soft);line-height:1.4;max-width:760px;text-wrap:balance}
+.hier-line{font-family:var(--mono);font-size:1.04rem;letter-spacing:.01em;color:var(--ink);background:var(--paper-2);border:1px solid var(--line-strong);border-radius:4px;padding:14px 20px;margin:18px 0 6px;text-align:center}
+
+/* ---------- the 72 -> 44 wall ---------- */
+.wall-grid{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:22px;margin:18px 0}
+.wall-box{border-radius:6px;padding:22px 24px;border:1px solid var(--line-strong)}
+.wall-bad{background:#fff;opacity:.78}
+.wall-good{background:var(--ink);border-color:var(--ink)}
+.wall-good .wall-label,.wall-good .wall-sub{color:var(--paper)}
+.wall-good .wall-num{color:var(--ember-soft)}
+.wall-num{font-family:var(--serif);font-size:3.4rem;font-weight:700;line-height:1;color:var(--muted)}
+.wall-label{font-family:var(--mono);font-size:.82rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin:6px 0 8px}
+.wall-sub{font-family:var(--sans);font-size:.96rem;color:#4a5a66;line-height:1.45}
+.wall-arrow{font-family:var(--serif);font-size:2.4rem;color:var(--ember);text-align:center}
+
+/* ---------- slide 4 figures ---------- */
+.fig-row{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:8px 0 0}
+.fig-card{margin:0;background:#fff;border:1px solid var(--line-strong);border-radius:6px;padding:14px;display:flex;flex-direction:column}
+.fig-card img{width:100%;height:auto;border-radius:2px;background:#fff}
+.fig-card figcaption{font-family:var(--sans);font-size:.92rem;line-height:1.4;color:#3a4750;margin-top:10px}
+.fig-card .prov{display:block;font-family:var(--mono);font-size:.72rem;letter-spacing:.02em;color:var(--muted);margin-top:5px}
+
+/* ============================================================
+   ★ Slide 5 — the closure challenge centerpiece
+   ============================================================ */
+.closure-wrap{display:grid;grid-template-columns:1.06fr 1fr;gap:34px;align-items:start;margin-top:4px}
+.closure-left{position:sticky;top:0}
+.chart-frame{background:#fff;border:1px solid var(--line-strong);border-radius:6px;padding:16px 16px 8px;box-shadow:0 6px 24px rgba(20,35,47,.06);height:430px;position:relative}
+.presentation-container.fullscreen-mode .chart-frame{height:500px}
+.chart-frame canvas{width:100%!important;height:100%!important}
+.chart-hint{font-family:var(--mono);font-size:.78rem;letter-spacing:.01em;color:var(--muted);margin-top:10px;line-height:1.4}
+.closure-lead{font-family:var(--serif)!important;font-size:1.22rem!important;line-height:1.42!important;color:var(--ink)!important;margin-bottom:16px!important}
+.closure-logic{list-style:none!important;margin:0 0 4px!important;padding:0!important}
+.closure-logic li{font-size:1.02rem!important;line-height:1.45!important;color:#27323b;padding-left:22px;position:relative;margin-bottom:12px!important}
+.closure-logic li::before{content:"";position:absolute;left:0;top:.55em;width:9px;height:9px;background:var(--petrol);transform:rotate(45deg)}
+.closure-logic li:nth-child(3)::before{background:var(--ember)}
+.closure-path{font-family:var(--sans);font-size:1.04rem;background:var(--ink);color:var(--paper);border-radius:4px;padding:14px 18px;margin:14px 0}
+.closure-path strong{color:var(--ember-soft)}
+.swap-slot{font-family:var(--sans);font-size:.96rem;line-height:1.45;color:#27323b;background:var(--paper-2);border:1px dashed var(--ember);border-radius:4px;padding:14px 16px;margin-top:6px}
+.swap-tag{display:inline-block;font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--ember);padding:3px 8px;border-radius:2px;margin-right:8px;vertical-align:middle}
+
+/* ---- three-beat recast (challenge / diagnosis / fix+method) ---- */
+.beat{margin-bottom:16px}
+.beat:last-of-type{margin-bottom:14px}
+.beat-tag{font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:5px;display:inline-block}
+.tag-challenge{color:var(--ember)}
+.tag-diagnosis{color:var(--petrol)}
+.tag-fix{color:var(--ink)}
+.closure-right .beat-text{font-size:1.06rem!important;line-height:1.4!important;color:#27323b;margin:0!important}
+/* in-progress placeholder token — visibly "to be filled" during the manual check */
+.ph{font-family:var(--mono);font-size:.86em;color:var(--ember-ink);background:rgba(200,85,61,.09);border:1px dashed var(--ember);border-radius:3px;padding:0 6px;white-space:nowrap}
+.chart-ph-badge{position:absolute;top:12px;right:12px;z-index:3;font-family:var(--mono);font-size:.7rem;letter-spacing:.04em;text-transform:uppercase;color:#fff;background:var(--ember);padding:4px 9px;border-radius:2px;opacity:.92}
+
+/* ---- Slide 5 redesign: the macro-picture dashboard ---- */
+.closure-right .closure-lead{font-size:1.12rem!important;line-height:1.4!important;margin-bottom:13px!important}
+.macro-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:0 0 12px}
+.macro-stat{background:#fff;border:1px solid var(--line-strong);border-left:3px solid var(--petrol);border-radius:4px;padding:9px 13px}
+.macro-stat:nth-child(4){border-left-color:var(--ember)}
+.ms-num{font-family:var(--serif);font-weight:700;font-size:1.85rem;line-height:1;color:var(--ink)}
+.ms-u{font-family:var(--mono);font-size:.82rem;font-weight:600;color:var(--muted);margin-left:2px}
+.ms-lab{font-family:var(--sans)!important;font-size:.82rem!important;line-height:1.25!important;color:#4a5763;margin-top:6px}
+.closure-flow{font-family:var(--sans);font-size:1.02rem;line-height:1.4;color:var(--ink);background:var(--paper-2);border:1px dashed var(--petrol);border-radius:4px;padding:11px 15px;margin-bottom:11px}
+.closure-flow strong{color:var(--petrol)}
+.cf-tag{display:inline-block;font-family:var(--mono);font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:var(--petrol);padding:3px 8px;border-radius:2px;margin-right:8px;vertical-align:middle}
+.cf-seg{display:block;margin-top:6px;font-family:var(--sans);font-size:.88rem;line-height:1.35;color:var(--ink);white-space:nowrap}
+.cf-side{font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:1px 7px;border-radius:2px;margin-right:7px;border:1px solid;vertical-align:middle}
+.cf-dem{color:var(--petrol);border-color:var(--petrol);background:rgba(42,111,119,.07)}
+.cf-sup{color:var(--ember-ink);border-color:var(--ember);background:rgba(200,85,61,.08)}
+.presentation-container.fullscreen-mode .cf-seg{font-size:.88rem!important}
+
+/* closed / closing roadmap labels */
+.rm-head{font-family:var(--mono);font-size:.82rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#5a6873;margin:2px 0 9px;display:flex;align-items:center;gap:9px}
+.rm-tag{font-family:var(--mono);font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fff;padding:3px 9px;border-radius:2px}
+.rm-done .rm-tag{background:var(--petrol)}
+.rm-now .rm-tag{background:var(--ember)}
+.rm-now{margin-top:13px}
+.rm-body{font-family:var(--sans)!important;font-size:1rem!important;line-height:1.42!important;color:#27323b;background:var(--paper-2);border:1px dashed var(--line-strong);border-radius:4px;padding:11px 15px}
+.rm-body strong{color:var(--ember)}
+.presentation-container.fullscreen-mode .rm-head{font-size:.84em!important}
+.presentation-container.fullscreen-mode .rm-body{font-size:.98em!important}
+/* fullscreen: keep the dense right column from ballooning under the uniform scaler */
+.presentation-container.fullscreen-mode .closure-right .closure-lead{font-size:1.05em!important;line-height:1.36!important}
+.presentation-container.fullscreen-mode .ms-num{font-size:1.7em!important}
+.presentation-container.fullscreen-mode .ms-lab{font-size:.8em!important}
+.presentation-container.fullscreen-mode .closure-flow{font-size:1em!important}
+
+/* ---------- dark slides: title / Q&A / vision ---------- */
+.title-slide,.conclusion-slide{background:var(--ink)!important;color:var(--paper)!important;
+  background-image:linear-gradient(var(--line-ink) 1px,transparent 1px),linear-gradient(90deg,var(--line-ink) 1px,transparent 1px)!important;
+  background-size:44px 44px!important}
+.title-slide::before{background:radial-gradient(circle at 28% 22%,rgba(200,85,61,.10),transparent 46%),radial-gradient(circle at 76% 84%,rgba(42,111,119,.14),transparent 50%)!important}
+.title-badge{border:1px solid var(--ember)!important;background:rgba(200,85,61,.10)!important;border-radius:2px!important;font-family:var(--mono)!important;letter-spacing:.32em!important;padding:9px 22px!important}
+.title-badge-text{background:none!important;-webkit-text-fill-color:var(--ember-soft)!important;color:var(--ember-soft)!important;font-weight:600}
+.title-heading{font-family:var(--serif)!important;font-weight:600!important;font-size:3.2rem!important;background:none!important;-webkit-text-fill-color:var(--paper)!important;color:var(--paper)!important;letter-spacing:-.02em!important;text-wrap:balance}
+.title-subtitle{font-family:var(--sans)!important;font-weight:400!important;color:var(--muted-ink)!important;opacity:1!important}
+.title-divider{background:linear-gradient(90deg,transparent,var(--ember),transparent)!important;width:90px!important}
+.title-meta{font-family:var(--mono)!important;font-size:.78rem!important;letter-spacing:.03em;color:var(--muted-ink)!important;text-transform:uppercase}
+.authors-title{font-family:var(--mono)!important;color:var(--petrol-soft)!important;letter-spacing:.18em}
+.author-name{font-family:var(--serif)!important;font-weight:600!important;font-size:1.18rem!important;color:var(--paper)!important}
+.author-role{font-family:var(--mono)!important;font-size:.78rem!important;color:var(--muted-ink)!important}
+.author-item.is-speaker .author-name{color:#fff!important}
+.speaker-tag{font-family:var(--mono);font-size:.52em;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ember-soft);border:1px solid var(--ember);border-radius:2px;padding:2px 8px;margin-left:10px;vertical-align:middle;white-space:nowrap}
+.pi-tag{font-family:var(--mono);font-size:.52em;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--petrol-soft);border:1px solid var(--petrol);border-radius:2px;padding:2px 8px;margin-left:10px;vertical-align:middle;white-space:nowrap}
+.shared-affil{font-family:var(--mono);font-size:1rem;letter-spacing:.05em;color:var(--muted-ink);margin-top:16px;text-align:center}
+
+/* ---------- persistent speaker credit (running footer) ----------
+   Shows ONLY on the content slides (2-5); hidden on the title (1),
+   program (6) and Q&A (7) slides — they already carry the name/contact,
+   and hiding on 6 clears the overlap. Centered by default, but LEFT on
+   the contribution slide (#closure). Kept quiet so it never competes
+   with the main content. z-index matches the engine's max-z fullscreen
+   slide (it's later in the DOM, so equal-z + DOM order paints on top). */
+.deck-credit{
+  display:flex;align-items:center;gap:9px;position:absolute;bottom:13px;left:50%;transform:translateX(-50%);z-index:2000;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.03em;pointer-events:none;white-space:nowrap;opacity:.68}
+.presentation-container.fullscreen-mode .deck-credit{position:fixed;bottom:20px;font-size:12.5px;z-index:2147483647}
+.deck-credit .credit-name{font-weight:500;color:var(--ink);display:inline-flex;align-items:center}
+.deck-credit .credit-name::before{content:"";display:inline-block;width:5px;height:5px;background:var(--ember);transform:rotate(45deg);margin-right:9px}
+.deck-credit .credit-sep{width:1px;height:11px;background:var(--line-strong)}
+.deck-credit .credit-meta{color:var(--muted)}
+
+/* hide on the dark slides — title (1), program/conclusion (6), Q&A (7) */
+.presentation-container:has(.slide.active.title-slide) .deck-credit,
+.presentation-container:has(.slide.active.conclusion-slide) .deck-credit{display:none!important}
+
+/* contribution slide keeps the credit left-aligned */
+.presentation-container:has(.slide.active#closure) .deck-credit{left:34px;transform:none}
+.presentation-container.fullscreen-mode:has(.slide.active#closure) .deck-credit{left:40px}
+
+/* conclusion / vision slide */
+.conclusion-slide{padding:60px 64px!important}
+.conclusion-slide h1{font-family:var(--serif)!important;color:var(--paper)!important;font-size:2.9rem!important;text-align:left!important;border:none!important;margin-bottom:26px!important}
+.vision-list{list-style:none!important;margin:14px 0 0!important;padding:0!important;max-width:none;width:100%}
+.vision-list li{display:flex!important;gap:28px;align-items:baseline;font-family:var(--sans)!important;line-height:1.5!important;color:var(--paper)!important;padding:0 0 22px!important;margin:0 0 22px!important;position:relative;border-bottom:1px solid var(--ink-line)}
+.vision-list li:last-child{border-bottom:none;padding-bottom:0!important;margin-bottom:0!important}
+.vision-list li::before{display:none!important}
+.vision-tag{flex:0 0 80px;font-family:var(--mono);font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ember-soft);font-size:.64em}
+.vision-text{flex:1}
+.vision-list strong{color:var(--ember-soft)!important}
+.vision-close{font-family:var(--serif);font-style:italic;font-size:1.5rem;color:var(--paper);border-top:1px solid var(--ink-line);padding-top:22px;margin-top:8px;max-width:900px}
+
+/* slide 6 — RQ1 policy-result placeholder (dark-slide variant of swap-slot) */
+.policy-headline{font-family:var(--sans);font-size:1.1rem;line-height:1.4;color:var(--paper);background:var(--ink-soft);border:1px dashed var(--ember);border-radius:4px;padding:13px 18px;margin-top:16px}
+.policy-tag{display:inline-block;font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--ember);padding:3px 9px;border-radius:2px;margin-right:10px;vertical-align:middle}
+.ph-dark{color:var(--ember-soft);background:rgba(200,85,61,.14);border-color:var(--ember-soft)}
+
+/* ---------- responsive + a11y floor ---------- */
+@media(max-width:900px){
+  .slide{padding:36px 26px!important}
+  .rq-grid,.fig-row,.closure-wrap,.wall-grid{grid-template-columns:1fr!important}
+  .wall-arrow{transform:rotate(90deg)}
+  .closure-left{position:static}
+  .slide h1{font-size:2.1em!important}
+  .title-heading{font-size:2.2rem!important}
+}
+:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ============================================================
+   LEGIBILITY PASS — projection floor (design for the BIG room).
+   Pure sizing/contrast; no wording changes. Reversible block.
+   ============================================================ */
+:root{--muted:#566570;--muted-ink:#AEC0CC}            /* darker caption grey for projector contrast */
+
+/* body copy — readable from the back row, larger again in fullscreen */
+.slide p,.slide li{font-size:1.3em!important;line-height:1.5!important}
+.presentation-container.fullscreen-mode .slide p,
+.presentation-container.fullscreen-mode .slide li{font-size:1.5em!important}
+.highlight{font-size:1.2em!important;padding:22px 26px!important}
+.callout-gap{font-size:1.24em}
+.module-title{font-size:1rem!important}
+.module-desc{font-size:1.08rem!important;color:#3d4b56!important;line-height:1.4!important}
+.architecture-legend p{font-size:1.12rem!important}
+.eyebrow{font-size:1.2rem}
+.hier-line{font-size:1.2rem}
+.hook-line{font-size:1.85rem}
+
+/* slide 4 figure captions */
+.fig-card figcaption{font-size:1.08rem!important;color:#33424c!important}
+.fig-card .prov{font-size:.86rem!important;color:#5a6873!important}
+
+/* slide 5 closure — the densest slide; sized up, will want a word-trim in the content pass */
+.closure-lead{font-size:1.46rem!important;line-height:1.4!important}
+.closure-logic li{font-size:1.2rem!important;line-height:1.42!important;margin-bottom:14px!important}
+.closure-path{font-size:1.22rem!important}
+.swap-slot{font-size:1.12rem!important}
+.chart-hint{font-size:1rem!important;color:#4a5763!important}
+.presentation-container.fullscreen-mode .chart-frame{height:560px}
+
+/* dark slides */
+.vision-list li{font-size:1.5rem!important;line-height:1.45!important}
+.vision-close{font-size:1.85rem}
+.wall-sub{font-size:1.12rem}
+.title-subtitle{font-size:1.4rem!important}
+.title-meta{font-size:.86rem!important}
+.author-role{font-size:.86rem!important}
+
+/* ============================================================
+   PRESENTATION STAGE — auto-fit, full-bleed (no floating card).
+   The slide FILLS the screen with its own background; the
+   .slide-body (fixed 1280px design width) scales as ONE unit by
+   --fit to the largest size that fits, and is centered. Adapts to
+   any display — 16:9 / 16:10 / 4:3 — no stretch, crop or clip.
+   --fit set by cef-present.js. (?stage = windowed preview.)
+   ============================================================ */
+body.fullscreen-active{overflow:hidden}
+.presentation-container.fullscreen-mode{background:var(--ink)!important}
+.presentation-container.fullscreen-mode .presentation-header,
+.presentation-container.fullscreen-mode .slide-badge{display:none!important}
+/* slide fills the viewport (engine forces 100vw x 100vh); center the body, restore our bg */
+.presentation-container.fullscreen-mode .slide{padding:0!important;overflow:hidden!important}
+.presentation-container.fullscreen-mode .slide.content-slide{align-items:center!important;justify-content:center!important;background-color:var(--paper)!important;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px)!important;background-size:44px 44px!important}
+.presentation-container.fullscreen-mode .slide.title-slide,
+.presentation-container.fullscreen-mode .slide.conclusion-slide{align-items:center!important;justify-content:center!important;background-color:var(--ink)!important;
+  background-image:linear-gradient(var(--line-ink) 1px,transparent 1px),linear-gradient(90deg,var(--line-ink) 1px,transparent 1px)!important;background-size:44px 44px!important}
+/* beat the engine's .conclusion-slide.active{justify-content:flex-start} (higher specificity) — center it like the rest */
+.presentation-container.fullscreen-mode .slide.conclusion-slide.active,
+.presentation-container.fullscreen-mode .slide.title-slide.active{align-items:center!important;justify-content:center!important}
+/* the design body — FIXED 1280x720 canvas scaled by ONE uniform --fit
+   (identical on every slide => consistent content size), centered & clipped */
+.presentation-container.fullscreen-mode .slide-body{
+  width:1280px!important;height:auto!important;box-sizing:border-box!important;flex:0 0 auto!important;max-width:none!important;
+  transform:scale(var(--fit,1));transform-origin:center center;padding:10px 20px}
+.presentation-container.fullscreen-mode .fig-card img{width:100%!important;height:262px!important;max-width:none!important;object-fit:contain;background:#fff}
+.presentation-container.fullscreen-mode .fig-card{padding:12px!important}
+.presentation-container.fullscreen-mode .fig-card figcaption{font-size:.98rem!important;margin-top:8px!important}
+/* fullscreen == base sizes; the uniform scale does the enlarging */
+.presentation-container.fullscreen-mode .slide h1{font-size:2.6em!important;margin-bottom:18px!important}
+.presentation-container.fullscreen-mode .slide p,
+.presentation-container.fullscreen-mode .slide li{font-size:1.26em!important}
+.presentation-container.fullscreen-mode .eyebrow{font-size:1.18rem!important;margin-bottom:14px!important}
+.presentation-container.fullscreen-mode .highlight{margin:12px 0!important;padding:16px 22px!important}
+.presentation-container.fullscreen-mode .chart-frame{height:380px!important}
+.presentation-container.fullscreen-mode .closure-wrap{gap:28px!important;margin-top:2px!important}
+.presentation-container.fullscreen-mode .closure-right .beat-text{font-size:1.06em!important;line-height:1.36!important}
+.presentation-container.fullscreen-mode .beat{margin-bottom:13px!important}
