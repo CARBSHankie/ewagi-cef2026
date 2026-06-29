@@ -14,8 +14,8 @@
             <div class="section-links">
                 <button class="section-link" onclick="scrollToSection('motivation')">The Question</button>
                 <button class="section-link" onclick="scrollToSection('framework')">The Framework</button>
+                <button class="section-link" onclick="scrollToSection('closure')">The Benchmark</button>
                 <button class="section-link" onclick="scrollToSection('incidence')">The Mechanism</button>
-                <button class="section-link" onclick="scrollToSection('closure')">The Macro</button>
                 <button class="section-link" onclick="scrollToSection('vision')">The Program</button>
             </div>
 
@@ -115,7 +115,40 @@
           </div>
         </div>
 
-        <!-- ===== Slide 4 — End-to-end + division carbon incidence ===== -->
+        <!-- ===== Slide 4 — THE BENCHMARK: validated stable German economy ===== -->
+        <div class="slide content-slide" id="closure">
+          <div class="slide-body">
+            <div class="eyebrow">The Benchmark</div>
+            <h1>A stable, calibrated German economy</h1>
+            <div class="closure-wrap">
+                <div class="closure-left">
+                    <div class="chart-frame">
+                        <canvas id="closureChart"></canvas>
+                    </div>
+                    <div class="chart-hint">Three independent seeds (band shown) · 45,670 agents · a full decade. <strong>Across all three</strong>, unemployment settles around <strong>5%</strong> and output holds near <strong>440B</strong> — stable, year after year.</div>
+                </div>
+                <div class="closure-right">
+                    <p class="closure-lead">Before any policy experiment, the model must reproduce a working economy — and it does. <strong>45,670 heterogeneous firms</strong>, seeded from the real German structure, run end-to-end for a full decade and stay coherent. <strong>Unemployment ~5%, inflation ~2% on the ECB target</strong> — a realistic, stable German economy. <strong>This is the validated baseline every experiment runs on.</strong></p>
+                    <div class="rm-head rm-done"><span class="rm-tag">Validated</span> reproduces a stable German economy — a decade deep, three seeds</div>
+                    <div class="macro-grid">
+                        <div class="macro-stat"><div class="ms-num">4–5<span class="ms-u">%</span></div><div class="ms-lab">unemployment — a realistic German rate</div></div>
+                        <div class="macro-stat"><div class="ms-num">~2<span class="ms-u">%</span></div><div class="ms-lab">inflation — on the ECB target</div></div>
+                        <div class="macro-stat"><div class="ms-num">~440<span class="ms-u">B</span></div><div class="ms-lab">output — stable, year after year</div></div>
+                        <div class="macro-stat"><div class="ms-num">70<span class="ms-u">/100</span></div><div class="ms-lab">macro-health — a sound economy</div></div>
+                    </div>
+                    <div class="closure-flow">
+                        <span class="cf-tag">circular flow</span>
+                        <span class="cf-seg"><span class="cf-side cf-dem">demand</span> reaches every buyer — HH <strong>35%</strong> · firms <strong>44%</strong> · gov <strong>10%</strong> · exports <strong>11%</strong></span>
+                        <span class="cf-seg"><span class="cf-side cf-sup">supply</span> sustains it — firms profitable <strong>+4%</strong> · <strong>~99%</strong> active · <strong>~1.3-mo</strong> stock</span>
+                    </div>
+                    <div class="rm-head rm-now"><span class="rm-tag">Still calibrating</span> the finer levels</div>
+                    <div class="rm-body">A short list remains — the <strong>investment share</strong>, the <strong>real-wage path</strong>, and <strong>public-debt dynamics</strong>. The headline macro is sound; these are the next calibration.</div>
+                </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== Slide 5 — Mechanism: RQ1 incidence + RQ3 reallocation ===== -->
         <div class="slide content-slide" id="incidence">
           <div class="slide-body">
             <div class="eyebrow">The Mechanism — RQ1 / RQ3</div>
@@ -135,39 +168,6 @@
             </div>
             <div class="callout-gap">
                 Together: the tax <strong>falls on the energy-intensive, reallocates toward the clean sectors, and the macro absorbs it</strong> — no aggregate output loss. The distributional story a representative agent cannot tell.
-            </div>
-          </div>
-        </div>
-
-        <!-- ===== Slide 5 — ★ THE MICRO-MACRO CLOSURE CHALLENGE (centerpiece) ===== -->
-        <div class="slide content-slide" id="closure">
-          <div class="slide-body">
-            <div class="eyebrow">The Macro</div>
-            <h1>A new macroeconomic foundation — at full scale</h1>
-            <div class="closure-wrap">
-                <div class="closure-left">
-                    <div class="chart-frame">
-                        <canvas id="closureChart"></canvas>
-                    </div>
-                    <div class="chart-hint">Three independent seeds (band shown) · 45,670 agents · a full decade. <strong>Across all three</strong>, unemployment settles around <strong>5%</strong> and output holds near <strong>440B</strong> — stable, year after year.</div>
-                </div>
-                <div class="closure-right">
-                    <p class="closure-lead">A <strong>new macroeconomic foundation</strong> — 45,670 heterogeneous firms, seeded from the real German economic structure, run end-to-end for a full decade and staying coherent. <strong>Unemployment ~5%, inflation ~2% on the ECB target</strong> — a realistic, stable German economy. <strong>The macro core holds.</strong></p>
-                    <div class="rm-head rm-done"><span class="rm-tag">Closed</span> the macro holds — a decade deep, three seeds</div>
-                    <div class="macro-grid">
-                        <div class="macro-stat"><div class="ms-num">4–5<span class="ms-u">%</span></div><div class="ms-lab">unemployment — a realistic German rate</div></div>
-                        <div class="macro-stat"><div class="ms-num">~2<span class="ms-u">%</span></div><div class="ms-lab">inflation — on the ECB target</div></div>
-                        <div class="macro-stat"><div class="ms-num">~440<span class="ms-u">B</span></div><div class="ms-lab">output — stable, year after year</div></div>
-                        <div class="macro-stat"><div class="ms-num">70<span class="ms-u">/100</span></div><div class="ms-lab">macro-health — a sound economy</div></div>
-                    </div>
-                    <div class="closure-flow">
-                        <span class="cf-tag">circular flow</span>
-                        <span class="cf-seg"><span class="cf-side cf-dem">demand</span> reaches every buyer — HH <strong>35%</strong> · firms <strong>44%</strong> · gov <strong>10%</strong> · exports <strong>11%</strong></span>
-                        <span class="cf-seg"><span class="cf-side cf-sup">supply</span> sustains it — firms profitable <strong>+4%</strong> · <strong>~99%</strong> active · <strong>~1.3-mo</strong> stock</span>
-                    </div>
-                    <div class="rm-head rm-now"><span class="rm-tag">Closing</span> the coming months</div>
-                    <div class="rm-body">A short list remains — the <strong>investment share</strong>, the <strong>real-wage path</strong>, and <strong>public-debt dynamics</strong>. Then this foundation becomes a policy laboratory. <strong>→</strong></div>
-                </div>
             </div>
           </div>
         </div>
