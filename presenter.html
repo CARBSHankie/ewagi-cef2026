@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CEF 2026 — Presenter Script</title>
+<link rel="stylesheet" href="fonts.css">
+<style>
+  :root{
+    --ink:#0E1A22; --panel:#16242E; --panel2:#1B2C37;
+    --paper:#F2EEE4; --petrol:#6BB1B8; --ember:#E8836A; --muted:#8597A1;
+    --line:rgba(242,238,228,.10); --rail:rgba(107,177,184,.55);
+    --say:'Newsreader',Georgia,serif; --mono:'IBM Plex Mono',ui-monospace,monospace; --ui:'Inter',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--ink);color:var(--paper);font-family:var(--ui);
+       -webkit-font-smoothing:antialiased;line-height:1.5;padding-bottom:4rem}
+
+  /* ---------- cockpit (sticky) ---------- */
+  .cockpit{position:sticky;top:0;z-index:50;background:rgba(14,26,34,.97);
+    backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:.7rem 1.4rem .55rem}
+  .ck-top{display:flex;align-items:baseline;gap:1.4rem;flex-wrap:wrap}
+  .ck-brand{font-family:var(--mono);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--petrol)}
+  .ck-talk{font-family:var(--mono);font-size:.74rem;color:var(--muted);flex:1;min-width:160px}
+  .ck-clock{font-family:var(--mono);font-size:2.1rem;font-weight:600;line-height:1;color:var(--paper);
+    cursor:pointer;user-select:none;font-variant-numeric:tabular-nums;transition:color .2s}
+  .ck-clock.run{color:var(--ember)}
+  .ck-clock.over{color:#ff5a4d;animation:pulse 1s steps(2) infinite}
+  @keyframes pulse{50%{opacity:.45}}
+  .ck-of{font-family:var(--mono);font-size:.9rem;color:var(--muted);margin-left:.1rem}
+  .ck-now{font-family:var(--mono);font-size:.8rem;color:var(--muted);text-align:right;min-width:190px}
+  .ck-now b{color:var(--petrol);font-weight:600}
+  .ck-hint{font-family:var(--mono);font-size:.66rem;color:var(--muted);opacity:.7}
+
+  /* ---------- pace bar (signature) ---------- */
+  .pace{position:relative;height:30px;margin-top:.5rem}
+  .pace-track{position:absolute;top:19px;left:0;right:0;height:2px;background:var(--line)}
+  .pace-fill{position:absolute;top:19px;left:0;height:2px;background:var(--rail);width:0}
+  .pace-tick{position:absolute;top:8px;transform:translateX(-50%);font-family:var(--mono);
+    font-size:.66rem;color:var(--muted);text-align:center}
+  .pace-tick::after{content:"";display:block;width:1px;height:7px;background:var(--line);margin:2px auto 0}
+  .pace-tick.passed{color:var(--petrol)}
+  .pace-now{position:absolute;top:4px;width:2px;height:22px;background:var(--ember);left:0;
+    box-shadow:0 0 7px var(--ember);transition:left .25s linear}
+
+  /* ---------- movements ---------- */
+  main{max-width:1080px;margin:0 auto;padding:1.6rem 1.4rem 0}
+  .mv{position:relative;background:var(--panel);border:1px solid var(--line);border-left:3px solid transparent;
+    border-radius:5px;padding:1.1rem 1.4rem 1.3rem;margin-bottom:1.5rem;scroll-margin-top:120px}
+  .mv.now{border-left-color:var(--ember);background:var(--panel2);box-shadow:0 0 0 1px rgba(232,131,106,.25)}
+  .mv-rail{display:flex;align-items:baseline;gap:.85rem;border-bottom:1px solid var(--line);
+    padding-bottom:.55rem;margin-bottom:.85rem}
+  .mv-no{font-family:var(--mono);font-size:1.5rem;font-weight:600;color:var(--petrol);line-height:1}
+  .mv-title{font-family:var(--mono);font-size:1rem;letter-spacing:.04em;color:var(--paper);
+    text-transform:uppercase;flex:1}
+  .mv-time{font-family:var(--mono);font-size:.95rem;color:var(--ember);font-variant-numeric:tabular-nums}
+
+  .say{font-family:var(--say);font-size:1.52rem;line-height:1.5;color:var(--paper);
+    margin:0 0 .85rem;max-width:62ch}
+  .say:last-child{margin-bottom:0}
+  .say em{font-style:italic;color:var(--petrol)}
+  .cue{font-family:var(--ui);font-style:italic;font-size:.95rem;color:var(--ember);
+    margin:.2rem 0 .85rem;padding-left:.9rem;border-left:2px dotted rgba(232,131,106,.5);opacity:.92}
+  .cue::before{content:"▸ ";font-style:normal}
+
+  /* ---------- Q&A ---------- */
+  .qa{max-width:1080px;margin:2.2rem auto 0;padding:0 1.4rem}
+  .qa-head{font-family:var(--mono);font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--petrol);border-top:1px solid var(--line);padding-top:1.2rem;margin-bottom:.3rem}
+  .qa-sub{font-family:var(--ui);font-size:.85rem;color:var(--muted);margin-bottom:1.1rem;max-width:80ch}
+  .qa-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem}
+  .qa-card{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:.7rem .9rem}
+  .qa-card .q{font-family:var(--ui);font-weight:600;font-size:.92rem;color:var(--petrol);margin:0 0 .35rem}
+  .qa-card .a{font-family:var(--say);font-size:1.04rem;line-height:1.42;margin:0 0 .35rem}
+  .qa-card .n{font-family:var(--mono);font-size:.72rem;color:var(--muted);line-height:1.4}
+  .qa-card.back{border-color:rgba(232,131,106,.3)}
+  .qa-card.back .q{color:var(--ember)}
+
+  :focus-visible{outline:2px solid var(--petrol);outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+  @media (max-width:720px){.qa-grid{grid-template-columns:1fr}.say{font-size:1.32rem}.ck-now{display:none}}
+</style>
+</head>
+<body>
+  <header class="cockpit">
+    <div class="ck-top">
+      <span class="ck-brand">Presenter</span>
+      <span class="ck-talk">Energy Prices, Firm Heterogeneity &amp; Industrial Competitiveness · CEF 2026 · Venice</span>
+      <span class="ck-clock" id="clock" title="space = start/pause · R = reset">0:00</span><span class="ck-of">/ 18:00</span>
+      <span class="ck-now" id="now">NOW <b>—</b><br><span class="ck-hint">space start/pause · R reset</span></span>
+    </div>
+    <div class="pace" id="pace">
+      <div class="pace-track"></div><div class="pace-fill" id="paceFill"></div>
+      <div class="pace-now" id="paceNow"></div>
+    </div>
+  </header>
+
+  <main>
+    <article class="mv" data-start="0" data-end="60">
+      <div class="mv-rail"><span class="mv-no">1</span><span class="mv-title">Title</span><span class="mv-time">0:00–1:00</span></div>
+      <p class="cue">Title slide up. Stand still. Wait one or two seconds, then speak.</p>
+      <p class="say">Good afternoon. Thank you for staying for the last session today.</p>
+      <p class="say">My name is Hankui Wang. This is joint work with Philipp Harting. We work between Bielefeld and Côte d'Azur.</p>
+      <p class="say">Let me begin with one question. When energy prices go up, the cost is not shared equally. Some firms pay much more than others. Steel and chemicals pay about <em>eight times</em> more than pharma. So the real question is this: who pays the most — and what happens to the whole economy when we add up forty-five thousand different firms?</p>
+      <p class="say">Adding them all up is the hard part. That is where this talk goes.</p>
+    </article>
+
+    <article class="mv" data-start="60" data-end="240">
+      <div class="mv-rail"><span class="mv-no">2</span><span class="mv-title">The Question</span><span class="mv-time">1:00–4:00</span></div>
+      <p class="cue">"An energy shock is distributional, not aggregate." Highlight box, then the four RQ cards.</p>
+      <p class="say">Let me explain the motivation with three facts about Germany.</p>
+      <p class="say">First, Germany imports about <em>seventy percent</em> of its primary energy. So an energy shock, or a carbon price, is a cost on the whole economy.</p>
+      <p class="say">Second, <em>ninety-six percent</em> of manufacturing firms pay the full energy cost. Almost no firm is protected.</p>
+      <p class="say">Third, and this is the key fact: energy use is very uneven. For the same output, chemicals, glass, steel, and paper use about <em>eight to nine times</em> more energy than pharma. So the same carbon price is small for one firm, and very large for another.</p>
+      <p class="say">Here is the main idea. A carbon price is not one shock for everyone. It is a different shock for each firm. The effect is distributional. And if the effect is different for each firm, then our questions must be about the differences — not the average.</p>
+      <p class="say">This gives us four research questions. They form a chain.</p>
+      <p class="cue">Point to each card, one short breath each.</p>
+      <p class="say"><em>RQ1, incidence.</em> How does the price pass through to cost and competitiveness, sector by sector? In short: who pays?</p>
+      <p class="say"><em>RQ2, the firm response.</em> How do firms react — invest in efficiency, switch fuel, change prices, cut output? And is the response uneven?</p>
+      <p class="say"><em>RQ3, structure.</em> How do these firm responses add up to a change in industrial structure — in the energy-heavy base?</p>
+      <p class="say"><em>RQ4, policy.</em> Which carbon-tax level, which use of the revenue, and which targeting give the best balance between competitiveness and lower emissions?</p>
+      <p class="say">And this is why a representative-agent model cannot answer them. One average firm has no distribution — and incidence, the asymmetric response, and structural change all live in the distribution. So we model the heterogeneity directly.</p>
+      <p class="say">The rest of the talk has three parts. How we built such a model. That it reproduces a stable German economy. And what a carbon tax does to it.</p>
+    </article>
+
+    <article class="mv" data-start="240" data-end="435">
+      <div class="mv-rail"><span class="mv-no">3</span><span class="mv-title">The Framework</span><span class="mv-time">4:00–7:15</span></div>
+      <p class="cue">EWaGI highlight, the hierarchy line, then the 72 → 44 boxes.</p>
+      <p class="say">Our model is called EWaGI.</p>
+      <p class="say">It is a large agent-based model of the German economy, built in the Eurace at Bielefeld tradition. So it has the standard structure: firms, banks, a government, and markets for labour, goods, and credit.</p>
+      <p class="say">Two things make our model different.</p>
+      <p class="say">First, scale and data. It runs more than <em>forty-five thousand agents</em>, built from real German input–output data. We do not start from an artificial steady state — we seed the real German structure: capital stocks, sector mix, trade shares. So it is structurally sound from the very first step, and the macro then settles to realistic German values as it runs.</p>
+      <p class="say">And that structure is a hierarchy — country, region, sector, then division, then firms and households. The division level is the key one.</p>
+      <p class="cue">Now the 72 → 44 boxes. The key design idea — slow down.</p>
+      <p class="say">If you split every sector into every division, you get <em>seventy-two units</em>. It looks ideal. But it does not work — the goods market breaks into far too many separate markets, and the model becomes too big to run.</p>
+      <p class="say">The opposite, one unit per sector, is easy to run — but it throws away the very heterogeneity we need.</p>
+      <p class="say">So we do neither. We use a hybrid. <em>Forty-four units</em>: seventeen at the sector level, twenty-seven at the division level. And the rule for where to add detail is economic, not random — exactly where energy use is uneven, in mining, manufacturing, and electricity. The twenty-two manufacturing divisions carry the energy heterogeneity: chemicals, glass, steel, and paper, against pharma and electronics. Everything else stays aggregated.</p>
+      <p class="say">The idea in one sentence: put the detail where the economics lives. That is what makes full heterogeneity possible at this scale.</p>
+    </article>
+
+    <article class="mv" data-start="435" data-end="765">
+      <div class="mv-rail"><span class="mv-no">4</span><span class="mv-title">The Benchmark</span><span class="mv-time">7:15–12:45</span></div>
+      <p class="cue">Chart left (three-seed band); validated-baseline dashboard right. The foundation every experiment runs on — give it room.</p>
+      <p class="say">So we built it. Does it work? Before we run any policy experiment, we need a model that reproduces a stable German economy — and here it is.</p>
+      <p class="say">Forty-five thousand heterogeneous firms, seeded from the real German economic structure, run end to end for a full decade — and the economy stays coherent.</p>
+      <p class="say">Making a heterogeneous economy hold together like this is genuinely hard. It needs the right machinery — a government that leans against downturns, business-to-business orders that fully settle, a labour market that clears, prices that hold steady. We built that machinery, as one coupled set.</p>
+      <p class="cue">Point to the chart, then walk the dashboard.</p>
+      <p class="say">Look at the chart. The band is three independent seeds. Over the full ten years, output holds — it dips early, then recovers and stays near <em>four hundred and forty billion</em>. Unemployment rises early, then settles around <em>five percent</em> — a realistic German rate — and stays there, with no ratchet upward. All three seeds give the same stable picture.</p>
+      <p class="say">And inflation is just as strong an anchor: it comes down from a higher early-run rate and settles right on the ECB target. Unemployment near five, inflation near two: a realistic, stable German economy. And the circular flow closes — both ways. On the demand side, spending reaches every part of the economy: households, firms buying from firms, government, and exports. On the supply side, firms trade at a profit, almost all stay in business, inventories sit at a normal buffer — production is sustained, not piling up. On our macro-health index, this benchmark scores <em>seventy out of a hundred</em>.</p>
+      <p class="cue">"Still calibrating" — the honest caveat.</p>
+      <p class="say">A short list is still being calibrated — the investment share, the real-wage path, and public-debt dynamics. The headline macro is sound; these finer levels are the next calibration. This is our validated benchmark — and everything that follows runs on this baseline.</p>
+    </article>
+
+    <article class="mv" data-start="765" data-end="945">
+      <div class="mv-rail"><span class="mv-no">5</span><span class="mv-title">The Mechanism · RQ1 / RQ3</span><span class="mv-time">12:45–15:45</span></div>
+      <p class="cue">"Who pays the carbon price, and how the economy reallocates." Incidence left, reallocation right.</p>
+      <p class="say">So we have a stable, validated baseline. Now the experiment: turn on a carbon tax — a baseline against fifty, seventy-five, and one hundred euros per tonne of CO₂. Two robust findings, one on each side. First question: who pays?</p>
+      <p class="cue">Left figure — RQ1, who bears the cost.</p>
+      <p class="say">Look at the left picture. This is the carbon-tax burden per unit of output. It lands on the energy-intensive sectors — glass, steel, coking, paper — which pay <em>fifteen to thirty-seven times more, per unit of output,</em> than pharma. That is RQ1: the energy-intensive sectors bear the carbon price. And they absorb the cost on their margins, and keep producing.</p>
+      <p class="cue">Right figure — RQ3, the key result. Deliver this clearly.</p>
+      <p class="say">Now the right picture. The carbon tax does not shrink the economy — output holds. It reallocates it. The low-energy sectors — electronics, pharma, and food — gain competitiveness, as energy-intensive production becomes relatively costly. That is RQ3 — the shift in industrial structure. So the green transition happens through reallocation toward the clean sectors, not through an aggregate loss.</p>
+      <p class="cue">Both panels are three-seed; the low-energy gains hold across all three.</p>
+      <p class="say">So put the two sides together. The tax falls on the energy-intensive sectors; the economy reallocates toward the clean ones; and the macro — the benchmark we just saw — absorbs it, with no aggregate output loss. That is the distributional story a single average-firm model cannot tell — it has no spread to move.</p>
+      <p class="say">And this is only the first experiment on that benchmark — the first of many. Let me close with where this program goes.</p>
+    </article>
+
+    <article class="mv" data-start="945" data-end="1065">
+      <div class="mv-rail"><span class="mv-no">6</span><span class="mv-title">The Program</span><span class="mv-time">15:45–17:45</span></div>
+      <p class="cue">Built / Found / Next — three clean rows.</p>
+      <p class="say">Let me put the whole program in three lines.</p>
+      <p class="say"><em>Built.</em> We built a hybrid, heterogeneous-firm energy macro. Eurace-grounded, built from real German input–output data, run end to end at forty-five thousand agents. As far as we know, this combination is not available ready-made — this much firm heterogeneity, grounded in real data, run as a closed macro.</p>
+      <p class="say"><em>Found.</em> The heterogeneous micro economy coheres into one sound, stable macro — forty-five thousand different firms adding up to a coherent macroeconomy that holds for a decade. Making that happen, at this scale, is the contribution.</p>
+      <p class="say"><em>Next.</em> With a sound macro, EWaGI becomes a policy laboratory — a tool to test carbon-price incidence, revenue recycling, and targeting for real German energy policy, with the firm heterogeneity these questions need. The calibration ahead is the road to a full policy tool.</p>
+      <p class="cue">Land the close.</p>
+      <p class="say">One last sentence. The heterogeneity that makes the policy questions worth asking is the same heterogeneity that makes the macro hard. Getting that closure right is what turns this model into a laboratory. That is where we are.</p>
+    </article>
+
+    <article class="mv" data-start="1065" data-end="1080">
+      <div class="mv-rail"><span class="mv-no">7</span><span class="mv-title">Close → Q&amp;A</span><span class="mv-time">17:45–18:00</span></div>
+      <p class="cue">Q&amp;A slide with contacts.</p>
+      <p class="say">I will stop there. Thank you for your attention. I am happy to take your questions.</p>
+      <p class="cue">Stay relaxed. Use the prepared answers below.</p>
+    </article>
+  </main>
+
+  <section class="qa">
+    <div class="qa-head">Q&amp;A — anticipated</div>
+    <div class="qa-sub">Through-line on every "is it real" answer: we calibrate structure and ratios — the result is the comparison, not absolute magnitudes. Most likely: Q1, Q2, Q5.</div>
+    <div class="qa-grid">
+      <div class="qa-card"><p class="q">Q1 · When does it start? Match real German macro?</p><p class="a">Tick 1 is a pre-crisis normal German economy, ~2018–19, from Destatis/Eurostat. A counterfactual laboratory, not a forecast — we exclude COVID and the 2022 energy crisis on purpose. We validate the tick-1 structure; the result is the comparison, baseline vs carbon tax.</p><p class="n">real Germany since: 2020 GDP −4% · 2022 inflation 8.6% · 2023–24 mild recession</p></div>
+      <div class="qa-card"><p class="q">Q2 · Why does output fall from 510B / unemployment rise from 1%?</p><p class="a">Those tick-1 numbers are an artificial full-employment snapshot — 1% because no one has been laid off yet, output at full seeded capacity. It then relaxes to its realistic equilibrium: unemployment to ~5% (the German norm of 5.5%), output to match, then flat. It is finding realism, not decaying.</p><p class="n">T1 510B/1.1% · T36 trough 403B/4.4% · T120 440B/~5%</p></div>
+      <div class="qa-card"><p class="q">Q3 · Does Germany really produce 440B? Realistic level?</p><p class="a">That is gross production scaled to ~5.3 trillion €/yr — the right order of magnitude (Germany ~7.5T gross, ~4T GDP, so ~70% of gross). We calibrate ratios and structure, not the exact euro level — a stylized 44-sector model. The result is the comparison, not the absolute number.</p><p class="n">model 5.3T/yr gross; Germany 7.5T gross, 4.1T GDP</p></div>
+      <div class="qa-card"><p class="q">Q4 · Is the stability real, or did you tune parameters?</p><p class="a">Mechanism-based, not tuning. Seven coupled mechanisms — order-flow settlement, counter-cyclical fiscal policy, one-sided labour matching, an inflation floor. Output-neutral, and it holds across three random seeds: all three stay stable, unemployment in the 4-to-5% band, output 437 to 444 billion.</p><p class="n">3 seeds: unemp 4.0/4.5/5.2% · output 437–444B · macro-health 26→70</p></div>
+      <div class="qa-card"><p class="q">Q5 · Why don't energy-intensive sectors lose output?</p><p class="a">They bear the cost — 15 to 37× more carbon tax per unit of output than pharma; that is RQ1, incidence. But they absorb it on their margins rather than cutting output, and the economy reallocates toward low-energy sectors — pharma, electronics, food gain — which is RQ3, the structural shift. The macro absorbs it, output holds. Reallocation, not destruction.</p><p class="n">per-unit intensity vs pharma: Glass/Foundry ~37× → ~15× · absolute "tax paid" is size-confounded (Electricity 597×, Trade 409×) — do NOT cite · low-energy output +9 to +23%</p></div>
+      <div class="qa-card"><p class="q">Q6 · German unemployment is ~3%, not 5.5%. Which?</p><p class="a">We use the national registered rate from the Bundesagentur — about 5 to 6 percent. The ILO/Eurostat rate is about 3 percent. Both are standard; ours is the registered definition.</p><p class="n">target 5.5%, model settles ~5%</p></div>
+      <div class="qa-card"><p class="q">Q7 · Why €75/t, and what is the pass-through?</p><p class="a">€75/t is a policy-relevant scenario; the tax activates in year two. These runs use the conservative full-absorption case — firms bear the cost, which squeezes margins. The literature suggests 50–70% pass-through, which we treat as a sensitivity; with pass-through, more cost would go to consumer prices, softening the margin impact.</p><p class="n">carbon_tax_75, startTick 20 · these runs ≈0% pass-through · 50–70% is the lit target · keep firm-margin OFF the slides</p></div>
+      <div class="qa-card"><p class="q">Q8 · Why an ABM rather than CGE / DSGE?</p><p class="a">The whole question — who bears the energy and carbon cost — is about heterogeneity across the energy-intensity distribution. A representative-agent model averages away exactly the variation we study. Our hybrid — 17 sectors plus 27 manufacturing divisions — resolves the energy-intensive divisions (chemicals, steel, coking) a sector-level model would blur.</p><p class="n">44 units; energy-intensity spread ~8× (Chemicals) to ~33× (Coking) vs Pharma</p></div>
+      <div class="qa-card back"><p class="q">↪ Slide-4 "Still calibrating" — what's off?</p><p class="a">Levels we tune next; none breaks the closure. Real wages lag the price rise (wage-indexation calibration — gap is large, ~−41%; don't volunteer). Investment undershoots (~0.2%, target ~20%). Public debt near zero (adding realistic accumulation).</p><p class="n">backstop — only if probed</p></div>
+      <div class="qa-card back"><p class="q">↪ Is this AI-assisted?</p><p class="a">Yes — model development and debugging used a multi-window AI-assisted workflow: parallel AI agents each owning a subsystem, cross-correcting each other. The economic modelling, calibration, and validation are ours; the AI accelerated debugging and coordination, and every result is verified against simulation output.</p><p class="n">backstop — keep it a method, not a gadget</p></div>
+    </div>
+  </section>
+
+<script>
+(function(){
+  var TOTAL=1080, elapsed=0, running=false, t=null;
+  var clock=document.getElementById('clock'), now=document.getElementById('now'),
+      paceNow=document.getElementById('paceNow'), paceFill=document.getElementById('paceFill'),
+      pace=document.getElementById('pace'), movements=[].slice.call(document.querySelectorAll('.mv'));
+
+  // build pace ticks from each movement's data-start
+  movements.forEach(function(m){
+    var s=+m.getAttribute('data-start');
+    var tick=document.createElement('div'); tick.className='pace-tick';
+    tick.style.left=(s/TOTAL*100)+'%';
+    tick.textContent=m.querySelector('.mv-no').textContent;
+    tick.dataset.start=s; pace.appendChild(tick);
+  });
+  var ticks=[].slice.call(document.querySelectorAll('.pace-tick'));
+
+  function fmt(s){var m=Math.floor(s/60),x=Math.round(s%60);return m+':'+(x<10?'0':'')+x;}
+  function render(){
+    clock.textContent=fmt(elapsed);
+    var pct=Math.min(elapsed/TOTAL,1)*100;
+    paceNow.style.left=pct+'%'; paceFill.style.width=pct+'%';
+    clock.classList.toggle('over', elapsed>TOTAL);
+    ticks.forEach(function(t){t.classList.toggle('passed', elapsed>=+t.dataset.start);});
+    var cur=null;
+    movements.forEach(function(m){
+      var on = elapsed>=+m.getAttribute('data-start') && elapsed<+m.getAttribute('data-end');
+      m.classList.toggle('now',on); if(on) cur=m;
+    });
+    if(cur){var no=cur.querySelector('.mv-no').textContent, ti=cur.querySelector('.mv-title').textContent;
+      now.innerHTML='NOW <b>'+no+' · '+ti+'</b><br><span class="ck-hint">space start/pause · R reset</span>';}
+  }
+  function tick(){elapsed+=1; if(elapsed>TOTAL+0) {} render();}
+  function start(){if(running)return; running=true; clock.classList.add('run'); t=setInterval(tick,1000);}
+  function pause(){running=false; clock.classList.remove('run'); clearInterval(t);}
+  function toggle(){running?pause():start();}
+  function reset(){pause(); elapsed=0; render();}
+
+  clock.addEventListener('click',toggle);
+  document.addEventListener('keydown',function(e){
+    if(e.code==='Space'){e.preventDefault();toggle();}
+    else if(e.key==='r'||e.key==='R'){reset();}
+  });
+  render();
+})();
+</script>
+</body>
+</html>
